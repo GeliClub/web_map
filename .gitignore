@@ -1,9 +1,13 @@
 # ignore mac meta files
 .DS_Store
 
+# Ignore Blender files while in development
+blender
+
 # ignore python outputs
 python/output/*
 python/save/*
+python/assets/*
 
 # ignore everything in blueprint
 blueprint/*

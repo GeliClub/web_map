@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="./vendor/aframe-master.min.js"></script>
+	<script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.11.4/dist/aframe-extras.min.js"></script>
+</head>
+<body>
+	<a-scene vr-mode-ui="enabled: false" light="defaultLightEnabled: false">
+		<a-asset>
+			<a-asset-item id="stuart1-obj" src="./assets/Stuart1.obj"></a-asset-item>
+			<a-asset-item id="stuart1-mtl" src="./assets/Stuart1.mtl"></a-asset-item>
+		</a-asset>
+		<a-entity camera="userHeight: 10" universal-controls="movementSpeed: 15; movementAcceleration: 100;" position="10 0 10" rotation="0 225 0"></a-entity>
+
+		<a-entity obj-model="obj: #stuart1-obj; mtl: #stuart1-mtl" scale="300 300 300"></a-entity>
+
+		<!-- Lighting -->
+		<a-sky material="color: #DDD"></a-sky>
+		<a-entity light="type: ambient; color: #BBB"></a-entity>
+		<a-entity light="type: hemisphere; color: #d1d3d5; groundColor: #000000; intensity: 0.6" position="0 1 2"></a-entity>
+	</a-scene>
+</body>
+</html>
