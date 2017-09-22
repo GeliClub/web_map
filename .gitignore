@@ -9,9 +9,5 @@ python/output/*
 python/save/*
 python/assets/*
 
-# ignore everything in blueprint
-blueprint/*
-
-# exclude folders to ignore in blueprint
-!blueprint/SB-[0-3]/*
-!blueprint/AM-[0-3]/*
+Floor\ Plans
+Floor\ Plans.zip
