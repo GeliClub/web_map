@@ -1,17 +1,36 @@
 
 var s = Snap(850, 1100);
 
-var c = s.circle( 200,200,10 );
+var sb1 = s.group();
+var sb2 = s.group();
 
-var sb1, sb2;
+var b0 = s.rect(10,10,50,50,10,10);
+var b1 = s.rect(10,80,50,50,10,10);
+var b2 = s.rect(10,150,50,50,10,10);
+
+
 
 Snap.load("assets/SB-01.svg", (data) => {
-	sb1 = data;
-	s.append(data);
+	sb1.append(data);
 });
+
 Snap.load("assets/SB-02.svg", (data) => {
-	sb2 = data;
-	s.append(data);
+	sb2.append(data);
+});
+
+
+
+b0.click(() => {
+	sb1.attr({visibility: "visible"});
+	sb2.attr({visibility: "visible"});
+});
+b1.click(() => {
+	sb1.attr({visibility: "visible"});
+	sb2.attr({visibility: "hidden"});
+});
+b2.click(() => {
+	sb1.attr({visibility: "hidden"});
+	sb2.attr({visibility: "visible"});
 });
 
 
