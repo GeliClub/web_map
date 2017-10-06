@@ -9,17 +9,37 @@
 	<a-scene vr-mode-ui="enabled: false" light="defaultLightEnabled: false">
 		<a-asset>
 			<a-asset-item id="stuart1-obj" src="./assets/Stuart1.obj"></a-asset-item>
+			<a-asset-item id="stuart2-obj" src="./assets/Stuart2.obj"></a-asset-item>
 			<a-asset-item id="stuart1-mtl" src="./assets/Stuart1.mtl"></a-asset-item>
+			<a-asset-item id="stuart2-mtl" src="./assets/Stuart2.mtl"></a-asset-item>
 		</a-asset>
 		
-		<a-entity camera="userHeight: 8" universal-controls="movementSpeed: 15; movementAcceleration: 100;" position="10 0 10" rotation="0 225 0"></a-entity>
+		<a-entity id="camera" camera="userHeight: 8" universal-controls="movementSpeed: 15; movementAcceleration: 100;" position="10 0 10" rotation="0 225 0"></a-entity>
 
 		<a-entity obj-model="obj: #stuart1-obj; mtl: #stuart1-mtl" scale="300 300 300"></a-entity>
+		<a-entity obj-model="obj: #stuart2-obj; mtl: #stuart2-mtl" position="0 8 0" scale="300 300 300"></a-entity>
 
 		<!-- Lighting -->
 		<a-sky material="color: #DDD"></a-sky>
 		<a-entity light="type: ambient; color: #BBB"></a-entity>
 		<a-entity light="type: hemisphere; color: #d1d3d5; groundColor: #000000; intensity: 0.6" position="0 1 2"></a-entity>
 	</a-scene>
+	<script type="text/javascript">
+		var camera = document.getElementById('camera');
+		document.onkeypress = function (e) {
+		    e = e || window.event;
+		    // use e.keyCode
+		    var height = camera.getAttribute('position');
+		    if (e.keyCode == 113) {
+		    	height.y += 1;
+		    	camera.setAttribute('position', height);
+		    }
+			if (e.keyCode == 101) {
+				height.y -= 1;
+		    	camera.setAttribute('position', height);
+			}
+		};
+		console.log("Done!");
+	</script>
 </body>
 </html>
