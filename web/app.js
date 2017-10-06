@@ -39,7 +39,7 @@ function addPoint(x,y,r,f) {
 }
 
 var text = s.text(180, 50, "Stuart Building");
-text.attr({"font-size": 50, "fill": 'blue'})
+text.attr({"font-size": 50, "fill": "blue", "class": "unselectable pointer-events"});
 
 ba[0].click(() => {
 	sb[0].attr({visibility: "visible"});
