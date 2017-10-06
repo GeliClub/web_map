@@ -28,14 +28,14 @@ Snap.load("assets/SB-02.svg", (data) => {
 	//sb[2].attr({visibility: "hidden"});
 });
 
-var scale = 11;
+var scale = 12; // need get correct scaling
 
 function addPoint(x,y,r,f) {
 	var offset = origin.node.getBBox();
 	if (f > -1 && f < sb.length)
-		points.push(sb[f].circle(offset.x+scale*x,offset.y-scale*y,r));
+		points.push(sb[f].circle(offset.x+scale*x,offset.y-scale*y,r).attr({"fill":"blue"}));
 	else
-		points.push(s.circle(offset.x+scale*x,offset.y-scale*y,r));
+		points.push(s.circle(offset.x+scale*x,offset.y-scale*y,r).attr({"fill":"blue"}));
 }
 
 var text = s.text(180, 50, "Stuart Building");
