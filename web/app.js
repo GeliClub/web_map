@@ -5,7 +5,7 @@ var points = []; // user location list
 var sb = [s.group(), s.group(), s.group()]; // stuart floors
 
 var origin = s.circle(162,721,2);
-origin.attr({visibility: "hidden"});
+//origin.attr({visibility: "hidden"});
 
 // buttons
 var ba = [s.rect(10,10,50,50,10,10)];
@@ -28,14 +28,20 @@ Snap.load("assets/SB-02.svg", (data) => {
 	//sb[2].attr({visibility: "hidden"});
 });
 
-var scale = 12; // need get correct scaling
+// var scale = 12; // need get correct scaling
+function convert(x) {
+	x = x * 3.28084; // 1ft/0.3048meters
+	x = x * 1/25; // 1in/25ft
+	x = x * 72; // svg DPI
+	return x;
+}
 
 function addPoint(x,y,r,f) {
 	var offset = origin.node.getBBox();
 	if (f > -1 && f < sb.length)
-		points.push(sb[f].circle(offset.x+scale*x,offset.y-scale*y,r).attr({"fill":"blue"}));
+		points.push(sb[f].circle(offset.x+convert(x),offset.y-convert(y),r).attr({"fill":"blue"}));
 	else
-		points.push(s.circle(offset.x+scale*x,offset.y-scale*y,r).attr({"fill":"blue"}));
+		points.push(s.circle(offset.x+convert(x),offset.y-convert(y),r).attr({"fill":"blue"}));
 }
 
 var text = s.text(180, 50, "Stuart Building");
