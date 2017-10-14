@@ -50,7 +50,7 @@ var move = function(dx,dy) {
 	// console.log(unconvert(dx));
 	if (this.transform().local) {
 		var list = this.transform().local.slice(1).split(',');
-		console.log(list);
+		// console.log(list);
 		data[userid]["cx"] = 162 + parseFloat(list[0]);
 		data[userid]["cy"] = 721 + parseFloat(list[1]);
 	}
@@ -66,6 +66,17 @@ var start = function() {
 }
 var stop = function() {
 	console.log('finished dragging');
+}
+
+var sliderX = document.getElementById('locationX');
+var sliderY = document.getElementById('locationY');
+sliderX.oninput = function() {
+	data[userid]["rx"] = this.value;
+	firebase.database().ref('test/'+userid).update(data[userid]);
+}
+sliderY.oninput = function() {
+	data[userid]["ry"] = this.value;
+	firebase.database().ref('test/'+userid).update(data[userid]);
 }
 
 c.drag(move, start, stop);

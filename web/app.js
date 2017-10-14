@@ -68,8 +68,8 @@ var InitInterface = function() {
 		testref.once('value').then((snapshots) => {
 			snapshots.forEach((child) => {
 				// console.log(child.key);
-				// console.log(child.val());
 				if (!points[child.key]){
+					console.log(child.val());
 					interface.addPointList(child.key, child.val(), 0.25, "black", (child.val()['floor'])? child.val()['floor'] : -1);
 				}
 			});
@@ -77,8 +77,8 @@ var InitInterface = function() {
 
 		testref.on('child_added', (snapshot) => {
 			// console.log(snapshot.key);
-			// console.log(snapshot.val());
 			if (!points[snapshot.key]){
+				console.log(snapshot.val());
 				interface.addPointList(snapshot.key, snapshot.val(), 0.25, "black", (snapshot.val()['floor'])? snapshot.val()['floor'] : -1);
 			}
 		});
@@ -119,7 +119,7 @@ var InitInterface = function() {
 
 		addPoint: (id, centerX, centerY, radiusX, radiusY, opacity, color, floor) => {
 			var offset = origin.node.getBBox();
-			console.log("rx", radiusX, Util.convert(radiusX), "ry", radiusY, Util.convert(radiusY));
+			//console.log("rx", radiusX, Util.convert(radiusX), "ry", radiusY, Util.convert(radiusY));
 			if (floor > -1 && floor < sb.length) { // if a floor is specified
 				// s.ellipse(centerX, centerY, radiusX, radiusY);
 				points[id] = sb[floor].ellipse().attr({
