@@ -33,5 +33,5 @@ $.getJSON(url, {
 	json: param3
 }).done((data) => {
 	console.log(data);
-	addPoint(data['x0'], data['y0'], 5, data['Floor']);
+	app.addPoint(data['x0'], data['y0'], 5, data['Floor']);
 });
