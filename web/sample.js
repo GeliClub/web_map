@@ -31,17 +31,31 @@ var config = {
 firebase.initializeApp(config);
 var data = {}
 var userid = firebase.database().ref('test').push().key;
-data[userid] = {id: userid, cx: 0, cy: 0, rx: 10, ry: 10};
+data[userid] = {cx: 0, cy: 0, rx: 5, ry: 5, floor: 2, room: 229};
 firebase.database().ref('test').update(data);
 firebase.database().ref('test/'+userid).onDisconnect().remove();
+
+function unconvert(x) {
+	x = x * 1/72;
+	x = x * 25;
+	x = x * 1/3.28084;
+	return x;
+}
 
 var t = Snap(850, 1100);
 var c = t.circle(162, 721, 10);
 
 var move = function(dx,dy) {
-	//console.log(this.attr("cx"), this.transform().local);
-	data[userid]["cx"] = data[userid]["cx"] + dx;
-	data[userid]["cy"] = data[userid]["cy"] + dy;
+	// console.log(this.transform().local);
+	// console.log(unconvert(dx));
+	if (this.transform().local) {
+		var list = this.transform().local.slice(1).split(',');
+		console.log(list);
+		data[userid]["cx"] = 162 + parseFloat(list[0]);
+		data[userid]["cy"] = 721 + parseFloat(list[1]);
+	}
+	// data[userid]["cx"] = data[userid]["cx"] + unconvert(dx);
+	// data[userid]["cy"] = data[userid]["cy"] + unconvert(dy);
 	firebase.database().ref('test/'+userid).update(data[userid]);
 	this.attr({
 		transform: this.data('origTransform') + (this.data('origTransform') ? "T" : "t") + [dx, dy]

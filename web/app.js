@@ -6,6 +6,8 @@
 	var text = s.text(180, 50, "Stuart Building")
 		.attr({"font-size": 50, "fill": "blue", "class": "unselectable pointer-events"});
 
+	var a;
+
 var InitInterface = function() {
 
 	// Initialize Firebase – please don't steal this API key
@@ -19,6 +21,7 @@ var InitInterface = function() {
 	};
 	firebase.initializeApp(config);
 
+	var testref = firebase.database().ref('test');
 
 	function load() {
 		// load svg onto different groups
@@ -59,12 +62,59 @@ var InitInterface = function() {
 			else 
 				sb[2].attr({visibility: "visible"});
 		});
+	}
+
+	function update() {
+		testref.once('value').then((snapshots) => {
+			snapshots.forEach((child) => {
+				// console.log(child.key);
+				// console.log(child.val());
+				if (!points[child.key]){
+					interface.addPointList(child.key, child.val(), 0.25, "black", (child.val()['floor'])? child.val()['floor'] : -1);
+				}
+			});
+		});
+
+		testref.on('child_added', (snapshot) => {
+			// console.log(snapshot.key);
+			// console.log(snapshot.val());
+			if (!points[snapshot.key]){
+				interface.addPointList(snapshot.key, snapshot.val(), 0.25, "black", (snapshot.val()['floor'])? snapshot.val()['floor'] : -1);
+			}
+		});
+
+		testref.on('child_changed', (snapshot) => {
+			// console.log(snapshot.key);
+			// console.log(snapshot.val());
+			if (points[snapshot.key]) {
+				points[snapshot.key].attr({
+					cx: snapshot.val().cx,
+					cy: snapshot.val().cy,
+					rx: snapshot.val().rx,
+					ry: snapshot.val().ry
+				});
+			}
+		});
+
+		testref.on('child_removed', (snapshot) => {
+			//console.log(snapshot.key);
+			//console.log(snapshot.val());
+			if (points[snapshot.key]) {
+				points[snapshot.key].remove();
+				delete points[snapshot.key];
+			}
+		});
 
 	}
 
 	var interface = {
 		init: () => {
 			load();
+			update();
+		},
+
+		addPointList: (id, location, opacity, color, floor) => {
+			interface.addPoint(id, location.cx, location.cy, location.rx, location.ry, opacity, color, floor);
 		},
 
 		addPoint: (id, centerX, centerY, radiusX, radiusY, opacity, color, floor) => {
