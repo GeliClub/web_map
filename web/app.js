@@ -1,13 +1,12 @@
-
-var InitInterface = function() {
-
 	var s = Snap(850, 1100);
-	var points = []; // user location list
+	var points = {}; // user location list
 	var sb = [s.group(), s.group(), s.group()]; // stuart floors
 	var origin = s.circle(162,721,2);
 	var button = [s.rect(10,10,50,50,10,10), s.rect(10,110,50,50,10,10), s.rect(10,210,50,50,10,10), s.rect(10,310,50,50,10,10)];
 	var text = s.text(180, 50, "Stuart Building")
 		.attr({"font-size": 50, "fill": "blue", "class": "unselectable pointer-events"});
+
+var InitInterface = function() {
 
 	// Initialize Firebase – please don't steal this API key
 	var config = {
@@ -68,12 +67,32 @@ var InitInterface = function() {
 			load();
 		},
 
-		addPoint: (x,y,r,f) => {
+		addPoint: (id, centerX, centerY, radiusX, radiusY, opacity, color, floor) => {
 			var offset = origin.node.getBBox();
-			if (f > -1 && f < sb.length)
-				points.push(sb[f].circle(offset.x+Util.convert(x),offset.y-Util.convert(y),r).attr({"fill":"blue"}));
-			else
-				points.push(s.circle(offset.x+Util.convert(x),offset.y-Util.convert(y),r).attr({"fill":"blue"}));
+			console.log("rx", radiusX, Util.convert(radiusX), "ry", radiusY, Util.convert(radiusY));
+			if (floor > -1 && floor < sb.length) { // if a floor is specified
+				// s.ellipse(centerX, centerY, radiusX, radiusY);
+				points[id] = sb[floor].ellipse().attr({
+									cx: offset.x+Util.convert(centerX),
+									cy: offset.y-Util.convert(centerY),
+									rx: Util.convert(radiusX),
+									ry: Util.convert(radiusY),
+									fill: color,
+									opacity: opacity
+									//strokeWidth:
+									//strokeOpacity:
+								});
+			}
+			else {
+				points[id] = s.ellipse().attr({
+									cx: offset.x+Util.convert(centerX),
+									cy: offset.y-Util.convert(centerY),
+									rx: Util.convert(radiusX),
+									ry: Util.convert(radiusY),
+									fill: color,
+									opacity: opacity
+								});
+			}
 		}
 	};
 

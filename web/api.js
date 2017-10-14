@@ -13,7 +13,7 @@ var bts = json["BTs"];
 
 for (var i in bts) {
 	console.log(bts[i]);
-	app.addPoint(bts[i].x, bts[i].y, 5, 2);
+	app.addPoint("beacon"+i, bts[i].x, bts[i].y, 0.5, 0.5, 1, "blue", 2);
 }
 
 /*
@@ -33,5 +33,5 @@ $.getJSON(url, {
 	json: param3
 }).done((data) => {
 	console.log(data);
-	addPoint(data['x0'], data['y0'], 5, data['Floor']);
+	app.addPoint("API", data['x0'], data['y0'], 1, 2, 0.25, "black", data['Floor']);
 });
