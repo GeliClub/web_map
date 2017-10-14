@@ -34,4 +34,5 @@ $.getJSON(url, {
 }).done((data) => {
 	console.log(data);
 	app.addPoint("API", data['x0'], data['y0'], 1, 2, 0.25, "black", data['Floor']);
+
 });
