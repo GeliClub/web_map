@@ -13,10 +13,12 @@ var bts = json["BTs"];
 
 for (var i in bts) {
 	console.log(bts[i]);
-	addPoint(bts[i].x, bts[i].y, 5, 2);
+	app.addPoint(bts[i].x, bts[i].y, 5, 2);
 }
 
 /*
+Database info/output all in meters
+
 More than 3 parameters are needed for trilateration
 
 -50 is usually the highest/hottest power -> closest (go for -51)
@@ -26,10 +28,10 @@ Database is in meters
 
 */
 
-// $.getJSON(url, {
-// 	test: "true",
-// 	json: param3
-// }).done((data) => {
-// 	console.log(data);
-// 	addPoint(data['x0'], data['y0'], 5, data['Floor']);
-// });
+$.getJSON(url, {
+	test: "true",
+	json: param3
+}).done((data) => {
+	console.log(data);
+	addPoint(data['x0'], data['y0'], 5, data['Floor']);
+});
