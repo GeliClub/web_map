@@ -1,13 +1,14 @@
-
-var InitInterface = function() {
-
 	var s = Snap(850, 1100);
-	var points = []; // user location list
+	var points = {}; // user location list
 	var sb = [s.group(), s.group(), s.group()]; // stuart floors
 	var origin = s.circle(162,721,2);
 	var button = [s.rect(10,10,50,50,10,10), s.rect(10,110,50,50,10,10), s.rect(10,210,50,50,10,10), s.rect(10,310,50,50,10,10)];
 	var text = s.text(180, 50, "Stuart Building")
 		.attr({"font-size": 50, "fill": "blue", "class": "unselectable pointer-events"});
+
+	var a;
+
+var InitInterface = function() {
 
 	// Initialize Firebase – please don't steal this API key
 	var config = {
@@ -20,6 +21,7 @@ var InitInterface = function() {
 	};
 	firebase.initializeApp(config);
 
+	var testref = firebase.database().ref('test');
 
 	function load() {
 		// load svg onto different groups
@@ -60,20 +62,87 @@ var InitInterface = function() {
 			else 
 				sb[2].attr({visibility: "visible"});
 		});
+	}
+
+	function update() {
+		testref.once('value').then((snapshots) => {
+			snapshots.forEach((child) => {
+				// console.log(child.key);
+				if (!points[child.key]){
+					console.log(child.val());
+					interface.addPointList(child.key, child.val(), 0.25, "black", (child.val()['floor'])? child.val()['floor'] : -1);
+				}
+			});
+		});
+
+		testref.on('child_added', (snapshot) => {
+			// console.log(snapshot.key);
+			if (!points[snapshot.key]){
+				console.log(snapshot.val());
+				interface.addPointList(snapshot.key, snapshot.val(), 0.25, "black", (snapshot.val()['floor'])? snapshot.val()['floor'] : -1);
+			}
+		});
+
+		testref.on('child_changed', (snapshot) => {
+			// console.log(snapshot.key);
+			// console.log(snapshot.val());
+			if (points[snapshot.key]) {
+				points[snapshot.key].attr({
+					cx: snapshot.val().cx,
+					cy: snapshot.val().cy,
+					rx: snapshot.val().rx,
+					ry: snapshot.val().ry
+				});
+			}
+		});
+
+		testref.on('child_removed', (snapshot) => {
+			//console.log(snapshot.key);
+			//console.log(snapshot.val());
+			if (points[snapshot.key]) {
+				points[snapshot.key].remove();
+				delete points[snapshot.key];
+			}
+		});
 
 	}
 
 	var interface = {
 		init: () => {
 			load();
+			update();
 		},
 
-		addPoint: (x,y,r,f) => {
+		addPointList: (id, location, opacity, color, floor) => {
+			interface.addPoint(id, location.cx, location.cy, location.rx, location.ry, opacity, color, floor);
+		},
+
+		addPoint: (id, centerX, centerY, radiusX, radiusY, opacity, color, floor) => {
 			var offset = origin.node.getBBox();
-			if (f > -1 && f < sb.length)
-				points.push(sb[f].circle(offset.x+Util.convert(x),offset.y-Util.convert(y),r).attr({"fill":"blue"}));
-			else
-				points.push(s.circle(offset.x+Util.convert(x),offset.y-Util.convert(y),r).attr({"fill":"blue"}));
+			//console.log("rx", radiusX, Util.convert(radiusX), "ry", radiusY, Util.convert(radiusY));
+			if (floor > -1 && floor < sb.length) { // if a floor is specified
+				// s.ellipse(centerX, centerY, radiusX, radiusY);
+				points[id] = sb[floor].ellipse().attr({
+									cx: offset.x+Util.convert(centerX),
+									cy: offset.y-Util.convert(centerY),
+									rx: Util.convert(radiusX),
+									ry: Util.convert(radiusY),
+									fill: color,
+									opacity: opacity
+									//strokeWidth:
+									//strokeOpacity:
+								});
+			}
+			else {
+				points[id] = s.ellipse().attr({
+									cx: offset.x+Util.convert(centerX),
+									cy: offset.y-Util.convert(centerY),
+									rx: Util.convert(radiusX),
+									ry: Util.convert(radiusY),
+									fill: color,
+									opacity: opacity
+								});
+			}
 		}
 	};
 
