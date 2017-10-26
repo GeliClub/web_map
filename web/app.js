@@ -1,8 +1,12 @@
-	var s = Snap(850, 1100);
+	// var s = Snap(850, 1100);
+	var s = Snap("#mapsvg");
+	s.attr({viewBox: "0 0 850 1100"}); // allows scaling
+	// var container = document.getElementById("mapsvg");
+	// container.appendChild(s);
 	var points = {}; // user location list
 	var sb = [s.group(), s.group(), s.group()]; // stuart floors
 	var origin = s.circle(162,721,2);
-	var button = [s.rect(10,10,50,50,10,10), s.rect(10,110,50,50,10,10), s.rect(10,210,50,50,10,10), s.rect(10,310,50,50,10,10)];
+	var button = [s.rect(10,110,50,50,10,10), s.rect(10,210,50,50,10,10), s.rect(10,310,50,50,10,10)];
 	var text = s.text(180, 50, "Stuart Building")
 		.attr({"font-size": 50, "fill": "blue", "class": "unselectable pointer-events"});
 
@@ -41,26 +45,18 @@ var InitInterface = function() {
 		// add button click functionality
 		button[0].click(() => {
 			sb[0].attr({visibility: "visible"});
-			sb[1].attr({visibility: "visible"});
-			sb[2].attr({visibility: "visible"});
+			sb[1].attr({visibility: "hidden"});
+			sb[2].attr({visibility: "hidden"});
 		});
 		button[1].click(() => {
-			if (sb[0].attr("visibility") === "visible") 
-				sb[0].attr({visibility: "hidden"});
-			else 
-		 		sb[0].attr({visibility: "visible"});
+			sb[0].attr({visibility: "hidden"});
+			sb[1].attr({visibility: "visible"});
+			sb[2].attr({visibility: "hidden"});
 		});
 		button[2].click(() => {
-			if (sb[1].attr("visibility") === "visible") 
-				sb[1].attr({visibility: "hidden"});
-			else 
-				sb[1].attr({visibility: "visible"});
-		});
-		button[3].click(() => {
-			if (sb[2].attr("visibility") === "visible") 
-				sb[2].attr({visibility: "hidden"});
-			else 
-				sb[2].attr({visibility: "visible"});
+			sb[0].attr({visibility: "hidden"});
+			sb[1].attr({visibility: "hidden"});
+			sb[2].attr({visibility: "visible"});
 		});
 	}
 
