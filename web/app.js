@@ -13,6 +13,10 @@ var b0 = [s.rect(10,110,50,50,10,10)];
 var b1 = [s.rect(10,210,50,50,10,10)];
 var b2 = [s.rect(10,310,50,50,10,10)];
 
+//Text Attribute:
+var textfont = "bold small-caps 20px Arial";
+var numfont = "bold 20px Arial";
+var fontcolor = "black";
 
 // load svg onto different groups
 Snap.load("assets/SB-00.svg", (data) => {
@@ -36,6 +40,7 @@ function convert(x) {
 	return x;
 }
 
+
 function addPoint(x,y,r,f) {
 	var offset = origin.node.getBBox();
 	if (f > -1 && f < sb.length)
@@ -44,8 +49,34 @@ function addPoint(x,y,r,f) {
 		points.push(s.circle(offset.x+convert(x),offset.y-convert(y),r).attr({"fill":"blue"}));
 }
 
+function addtestestimatePoint(x,y,r,f) {
+	var offset1 = origin.node.getBBox();
+	if (f > -1 && f < sb.length)
+		points.push(sb[f].circle(offset1.x+convert(x),offset1.y-convert(y),r).attr({"fill":"red"}));
+	else
+		points.push(s.circle(offset1.x+convert(x),offset1.y-convert(y),r).attr({"fill":"red"}));
+}
+
+function addtestrealPoint(x,y,r,f) {
+	var offset2 = origin.node.getBBox();
+	if (f > -1 && f < sb.length)
+		points.push(sb[f].circle(offset2.x+convert(x),offset2.y-convert(y),r).attr({"fill":"green"}));
+	else
+		points.push(s.circle(offset2.x+convert(x),offset2.y-convert(y),r).attr({"fill":"green"}));
+}
+
+function adderrorcircle(x,y,r,f) {
+	var offset3 = origin.node.getBBox();
+	if (f > -1 && f < sb.length)
+		points.push(sb[f].circle(offset3.x+convert(x),offset3.y-convert(y),convert(r)).attr({"opacity":0.3}));
+	else
+		points.push(s.circle(offset2.x+convert(x),offset2.y-convert(y),convert(r)).attr({"opacity":0.3}));
+}
+
+
 var text = s.text(180, 50, "Stuart Building");
 text.attr({"font-size": 50, "fill": "blue", "class": "unselectable pointer-events"});
+
 
 ba[0].click(() => {
 	sb[0].attr({visibility: "visible"});
@@ -70,3 +101,4 @@ b2[0].click(() => {
 	else 
 		sb[2].attr({visibility: "visible"});
 });
+
