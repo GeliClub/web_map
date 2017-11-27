@@ -13,7 +13,7 @@ var bts = json["BTs"];
 
 for (var i in bts) {
 	console.log(bts[i]);
-	app.addPoint("beacon"+i, bts[i].x, bts[i].y, 0.5, 0.5, 1, "blue", 2);
+	map.addPoint("beacon"+i, bts[i].x, bts[i].y, 0.5, 0.5, 1, "blue", 2);
 }
 
 /*
@@ -33,6 +33,16 @@ $.getJSON(url, {
 	json: param3
 }).done((data) => {
 	console.log(data);
-	app.addPoint("API", data['x0'], data['y0'], 1, 2, 0.25, "black", data['Floor']);
-
+	map.addPoint("API", data['x0'], data['y0'], 1, 2, 0.25, "black", data['Floor']);
 });
+
+
+// testing the draw line
+// (x1, y1)= (0,0), (x2, y2)=(24, 8)
+map.addLine("Test1", 0, 0, 24, 8, "red", 2, 5);
+// (x1, y1)= (0,0), (x2, y2)=(8, 24)
+map.addLine("Test2", 0, 0, 8, 24, "blue", 2, 5);
+
+setTimeout(() => {
+	map.getLayers().line["Test2"].remove();
+}, 5000) // remove test2 line in 5 seconds
