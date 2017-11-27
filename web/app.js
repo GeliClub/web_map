@@ -10,7 +10,7 @@ var InitApp = function() {
 
 	// initialize Snap Svg
 	let s = Snap("#mapsvg");
-	s.attr({viewBox: "0 0 850 1100"}); // allows scaling to browser viewport
+	s.attr({viewBox: "0 0 700 800"}); // allows scaling to browser viewport
 
 	// datastructure of the application data
 
