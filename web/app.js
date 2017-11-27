@@ -23,10 +23,11 @@ var InitApp = function() {
 			perlstein: s.text(180, 50, "Perlstein Hall").attr({"font-size": 50, "fill": "blue", "class": "unselectable pointer-events"})
 		},
 		button: [s.rect(10,110,50,50,10,10), s.rect(10,210,50,50,10,10), s.rect(10,310,50,50,10,10)],
-		stuart: [s.group(), s.group(), s.group()],
+		stuart: [s.group(), s.group(), s.group()], // number of layers, or floors to this building
 		perlstein: []
 	};
 
+	// accessible outside function scope
 	test.layers = layers;
 	test.snap = s;
 
@@ -52,7 +53,7 @@ var InitApp = function() {
 					layers.text[key].attr({visibility: "hidden"});
 			}
 
-			// TODO: need to update code below to account for n number of floors
+			// TODO: need to update code below to account for n number of floors of a given building
 
 			// load svg onto different groups
 			// uncomment one of them to set as the default floor to show during initialization
